@@ -20,6 +20,7 @@
 // components
 #include "components/background.h"
 #include "components/binds.h"
+#include "components/lua.h"
 #include "components/broadcast.h"
 #include "components/camera.h"
 #include "components/chat.h"
@@ -118,6 +119,7 @@ public:
 	CBroadcast m_Broadcast;
 	CGameConsole m_GameConsole;
 	CBinds m_Binds;
+	CLua m_Lua;
 	CParticles m_Particles;
 	CMenus m_Menus;
 	CSkins m_Skins;
