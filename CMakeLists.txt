@@ -502,6 +502,7 @@ endif()
 find_package(ZLIB)
 find_package(Crypto)
 find_package(Curl)
+find_package(Lua)
 if(CLIENT AND VIDEORECORDER)
   find_package(FFMPEG)
 endif()
@@ -592,6 +593,7 @@ function(show_dependency_status OUTPUT_NAME NAME)
 endfunction()
 
 show_dependency_status("Curl" CURL)
+show_dependency_status("Lua" LUA)
 if(TARGET_OS AND TARGET_OS STREQUAL "mac")
   show_dependency_status("Dmg tools" DMGTOOLS)
 endif()
@@ -636,6 +638,9 @@ endif()
 
 if(NOT(CURL_FOUND))
   message(SEND_ERROR "You must install Curl to compile ${CMAKE_PROJECT_NAME}")
+endif()
+if(NOT(LUA_FOUND))
+  message(SEND_ERROR "You must install Lua to compile ${CMAKE_PROJECT_NAME}")
 endif()
 if(NOT(Python3_FOUND))
   message(SEND_ERROR "You must install Python to compile ${CMAKE_PROJECT_NAME}")
@@ -1741,6 +1746,7 @@ set(INTEGRATION_TEST_COPY_FILES
 )
 set(COPY_FILES
   ${CURL_COPY_FILES}
+  ${LUA_COPY_FILES}
   ${FREETYPE_COPY_FILES}
   ${OPUSFILE_COPY_FILES}
   ${PNG_COPY_FILES}
@@ -2071,6 +2077,7 @@ set(DEPS ${DEP_JSON} ${DEP_MD5} ${ZLIB_DEP})
 set(LIBS
   ${CRYPTO_LIBRARIES}
   ${CURL_LIBRARIES}
+  ${LUA_LIBRARIES}
   ${SQLite3_LIBRARIES}
   ${WEBSOCKETS_LIBRARIES}
   ${ZLIB_LIBRARIES}
@@ -2191,8 +2198,8 @@ if(CLIENT)
     components/background.h
     components/binds.cpp
     components/binds.h
-	components/lua.cpp
-	components/lua.h
+    components/lua.cpp
+    components/lua.h
     components/broadcast.cpp
     components/broadcast.h
     components/camera.cpp
@@ -3394,6 +3401,7 @@ foreach(target ${TARGETS_OWN})
   target_include_directories(${target} PRIVATE src/rust-bridge)
   target_compile_definitions(${target} PRIVATE $<$<CONFIG:Debug>:CONF_DEBUG>)
   target_include_directories(${target} SYSTEM PRIVATE ${CURL_INCLUDE_DIRS} ${SQLite3_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS})
+  target_include_directories(${target} SYSTEM PRIVATE ${LUA_INCLUDE_DIRS})
   target_compile_definitions(${target} PRIVATE GLEW_STATIC)
   if(CRYPTO_FOUND)
     target_compile_definitions(${target} PRIVATE CONF_OPENSSL)

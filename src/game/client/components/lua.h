@@ -7,8 +7,6 @@
 
 #include <game/client/component.h>
 
-class IConfigManager;
-
 class CLua : public CComponent
 {
 	static void ConLua(IConsole::IResult *pResult, void *pUserData);

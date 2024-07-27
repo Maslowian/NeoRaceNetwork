@@ -1,6 +1,8 @@
 #include "lua.h"
 #include <engine/shared/config.h>
 
+#include <lua.hpp>
+
 CLua::CLua()
 {
 
